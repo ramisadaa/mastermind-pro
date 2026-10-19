@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Mastermind بالأرقام: فك الرمز بالسحب والإفلات، واستخدم التلميحات لاكتشاف الترتيب الصحيح. لعبة عربية تعمل دون إنترنت.">
+  <title>Mastermind — اللعبة الذهنية</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="engine.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#game">انتقل إلى اللعبة</a>
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M19 12H5m7-7-7 7 7 7"/></symbol>
+    <symbol id="i-restart" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 2-2.5 2-2.5 4M12 17h.01"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5zM16 9l6 6m0-6-6 6"/></symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24"><path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-delete" viewBox="0 0 24 24"><path d="M21 5H8l-6 7 6 7h13zM12 9l6 6m0-6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-switch" viewBox="0 0 24 24"><path d="M3 7h16m-4-4 4 4-4 4M21 17H5m4-4-4 4 4 4"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 3h8v7a4 4 0 0 1-8 0zM8 5H4v3a4 4 0 0 0 4 4m8-7h4v3a4 4 0 0 1-4 4m-4 2v5m-4 2h8"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Mastermind الصفحة الرئيسية">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span><strong lang="en" dir="ltr">mastermind<span class="brand-dot">.</span></strong><small>اللعبة الذهنية</small></span>
+      </a>
+      <div class="header-actions">
+        <span class="offline-badge"><span></span> تفكيرك هو المفتاح</span>
+        <button class="icon-button" id="soundBtn" type="button" aria-label="تشغيل الصوت" aria-pressed="false"><svg><use href="#i-mute"/></svg></button>
+        <button class="icon-button" id="themeBtn" type="button" aria-label="تفعيل الوضع الداكن" aria-pressed="false"><svg><use href="#i-theme"/></svg></button>
+        <button class="help-button" id="helpBtn" type="button"><svg><use href="#i-help"/></svg><span>كيف ألعب؟</span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="pageTitle">
+        <div>
+          <p class="eyebrow"><span></span> تحدٍّ صغير. تفكير عميق.</p>
+          <h1 id="pageTitle">كل رقم<span class="title-spark">✳</span><br>له <span class="title-accent">مكان.</span></h1>
+          <p class="intro-description">فكّ الرمز السري. اقرأ التلميحات، اربط الاحتمالات،<br class="desktop-break"> وخلّي محاولتك القادمة أذكى.</p>
+        </div>
+        <div class="intro-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <span class="art-tile art-tile-one">7</span><span class="art-tile art-tile-two">?</span><span class="art-tile art-tile-three">2</span>
+          <span class="art-plus">+</span><span class="art-caption" lang="en">THINK. TRY. SOLVE.</span>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <section class="game-panel panel" id="game" aria-labelledby="gameTitle" tabindex="-1">
+          <div class="panel-topline">
+            <div class="panel-label"><span class="live-dot"></span><h2 id="gameTitle">لوحة فك الرمز</h2></div>
+            <span class="round-label" id="roundLabel">جولة جديدة</span>
+          </div>
+          <div class="round-toolbar">
+            <div class="mode-field"><label for="modeSelect">مستوى التحدّي</label><select id="modeSelect"><option value="focus">تركيز · 3 خانات</option><option value="classic">كلاسيكي · 4 خانات</option><option value="expert">محترف · 5 خانات</option></select></div>
+            <button class="text-button" id="newGameBtn" type="button"><svg><use href="#i-restart"/></svg> جولة جديدة</button>
+          </div>
+          <div class="secret-bar">
+            <div><span class="overline">الرمز السري</span><p id="secretDescription">أرقام مختلفة. ترتيب واحد صحيح.</p></div>
+            <div class="secret-code" id="secretCode" dir="ltr" aria-label="الرمز السري مخفي"></div>
+          </div>
+          <div class="round-metrics">
+            <div><span class="metric-label">المحاولات المتبقية</span><strong><span id="remainingCount">8</span><small> / 8</small></strong></div>
+            <div class="time-metric"><span class="metric-label"><svg><use href="#i-clock"/></svg> وقت التفكير</span><strong id="timer" dir="ltr">00:00</strong></div>
+          </div>
+          <div class="attempt-progress" id="attemptProgress" aria-label="تقدم المحاولات"></div>
+
+          <section class="result-banner" id="resultBanner" hidden aria-labelledby="resultTitle">
+            <span class="result-icon" id="resultIcon" aria-hidden="true"><svg><use href="#i-trophy"/></svg></span>
+            <div><p class="overline" id="resultEyebrow">رمز محلول</p><h3 id="resultTitle">تفكيرك وصل للحل!</h3><p id="resultDescription"></p></div>
+            <button type="button" id="playAgainBtn" class="primary-button">تحدٍّ جديد <svg><use href="#i-arrow"/></svg></button>
+          </section>
+
+          <div class="composer" id="composer">
+            <div class="section-heading"><h3>محاولتك <span id="attemptNumber">01</span></h3><button class="subtle-button" id="clearBtn" type="button"><svg><use href="#i-delete"/></svg> مسح</button></div>
+            <div class="guess-slots" id="guessSlots" dir="ltr" role="group" aria-label="خانات المحاولة، من اليسار إلى اليمين"></div>
+            <p class="input-hint" id="inputHint">اسحب الأرقام إلى الخانات، أو انقر عليها بالترتيب.</p>
+            <div class="digit-bank" id="digitBank" dir="ltr" role="group" aria-label="الأرقام المتاحة من صفر إلى تسعة"></div>
+            <div class="composer-bottom"><span class="keyboard-tip"><kbd>Enter</kbd> للتحقّق <span>·</span> <kbd>⌫</kbd> للمسح</span><button type="button" class="primary-button" id="submitBtn">تحقّق من الرمز <svg><use href="#i-arrow"/></svg></button></div>
+          </div>
+          <p class="game-notice" id="gameNotice" role="status" aria-live="polite" aria-atomic="true">جاهز؟ أول تخمين هو بداية الطريق.</p>
+
+          <section class="history-section" aria-labelledby="historyTitle">
+            <div class="section-heading"><h3 id="historyTitle">مسار المحاولات</h3><span class="history-count" id="historyCount">0 / 8</span></div>
+            <div class="history-legend"><span>تخمينك</span><span><i class="dot exact"></i> بمكانه</span><span><i class="dot misplaced"></i> بمكان آخر</span><span><i class="dot absent"></i> غير موجود</span></div>
+            <ol class="history-list" id="historyList" aria-label="المحاولات السابقة ونتائجها"></ol>
+            <div class="history-empty" id="historyEmpty"><span class="empty-symbol" aria-hidden="true"><svg><use href="#i-grid"/></svg></span><strong>كل محاولة تعطيك معلومة.</strong><p>نتائجك ستظهر هنا، لتبني عليها خطوتك التالية.</p><div class="empty-skeleton" aria-hidden="true"><b></b><b></b><b></b><i></i><i></i><i></i></div></div>
+          </section>
+        </section>
+
+        <aside class="sidebar" aria-label="دليل اللعبة والإحصائيات">
+          <section class="guide-card panel">
+            <span class="card-index" lang="en">01 / THE CLUES</span><h2>اقرأ التلميح.<br>اقترب من الحل.</h2><p class="muted">بعد كل تخمين، تحصل على ثلاثة أعداد:</p>
+            <div class="clue-item"><span class="clue-icon exact"><svg><use href="#i-check"/></svg></span><div><h3>صحيح في المكان الصحيح</h3><p>الرقم موجود، وخانته صحيحة.</p></div></div>
+            <div class="clue-item"><span class="clue-icon misplaced"><svg><use href="#i-switch"/></svg></span><div><h3>صحيح في المكان الخطأ</h3><p>الرقم موجود، جرّب ترتيبًا آخر.</p></div></div>
+            <div class="clue-item"><span class="clue-icon absent"><svg><use href="#i-close"/></svg></span><div><h3>رقم غير موجود</h3><p>الرقم ليس جزءًا من الرمز السري.</p></div></div>
+            <div class="guide-note"><svg><use href="#i-lock"/></svg><p>التلميحات تعطيك <strong>العدد فقط</strong>، دون تحديد الأرقام المقصودة.</p></div>
+          </section>
+          <section class="stats-card panel" aria-labelledby="statsTitle"><div class="section-heading"><h2 id="statsTitle">سجلّك الذهني</h2><svg><use href="#i-trophy"/></svg></div><div class="stats-grid"><div><strong id="winsStat">0</strong><span>مرات الفوز</span></div><div><strong id="rateStat">—</strong><span>نسبة الفوز</span></div><div><strong id="bestStat">—</strong><span>أفضل محاولة</span></div></div><p>إحصائياتك محفوظة على هذا المتصفح.</p></section>
+          <section class="tip-card"><span class="tip-spark" aria-hidden="true">✳</span><p class="overline">فكّر قبل التبديل</p><h2>التخمين الأفضل<br>يختبر فكرة.</h2><p>قارن النتائج السابقة. تغيير محسوب قد يكشف أكثر من تبديل الأرقام كلها.</p></section>
+        </aside>
+      </div>
+    </main>
+    <footer class="site-footer"><span lang="en" dir="ltr">MASTERMIND <b> / </b> NUMBER EDITION</span><p>بُنيت لتختبر المنطق، وتستمتع بالمحاولة.</p><span class="footer-signature">نسخة رامي <span>✳</span></span></footer>
+  </div>
+
+  <dialog id="helpDialog" class="modal" aria-labelledby="helpTitle"><div class="modal-header"><span class="overline">دليل سريع</span><button type="button" class="icon-button" data-close-dialog aria-label="إغلاق التعليمات"><svg><use href="#i-close"/></svg></button></div><h2 id="helpTitle">كيف تفكّ الرمز؟</h2><ol class="help-steps"><li>اختر مستوى التحدّي: 3 أو 4 أو 5 خانات. لديك <strong>8 محاولات</strong> في كل مستوى.</li><li>الرمز يتكون من أرقام مختلفة بين 0 و9. الصفر مسموح في البداية، والتكرار غير مسموح.</li><li>اسحب رقمًا إلى خانة، أو حدّد الخانة ثم انقر الرقم. يمكنك سحب الأرقام بين الخانات لتبديلها.</li><li>اضغط «تحقّق من الرمز». تظهر أعداد الأرقام الصحيحة بمكانها، والصحيحة بمكان آخر، وغير الموجودة.</li><li>اكشف جميع الخانات بالترتيب الصحيح قبل نفاد المحاولات. الإدخال الناقص والتخمين المكرر لا يستهلكان محاولة.</li></ol><div class="help-example"><p>مثال توضيحي: السر <b dir="ltr">4271</b> والتخمين <b dir="ltr">1234</b></p><div><span class="exact">1 بمكانه</span><span class="misplaced">2 بمكان آخر</span><span class="absent">1 غير موجود</span></div></div><p class="muted">الوقت للحساب فقط، دون حد زمني. الجولة تُحفظ تلقائيًا إذا سمح المتصفح بالتخزين المحلي.</p><button type="button" class="primary-button full-width" data-close-dialog>فهمت، لنبدأ <svg><use href="#i-arrow"/></svg></button></dialog>
+  <dialog id="restartDialog" class="modal small-modal" aria-labelledby="restartTitle"><div class="modal-header"><span class="overline">بداية جديدة</span><button type="button" class="icon-button" data-close-dialog aria-label="العودة إلى الجولة"><svg><use href="#i-close"/></svg></button></div><h2 id="restartTitle">تبدأ تحدّيًا جديدًا؟</h2><p>ستُستبدل الجولة الحالية برمز جديد. الجولة غير المكتملة لا تُسجّل كخسارة.</p><div class="modal-actions"><button type="button" class="primary-button" id="confirmRestartBtn">ابدأ الجولة</button><button type="button" class="secondary-button" data-close-dialog>أكمل جولتي</button></div></dialog>
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+</body>
+</html>
